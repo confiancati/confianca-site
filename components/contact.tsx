@@ -250,7 +250,7 @@ export function Contact() {
           <div className="w-full rounded-2xl overflow-hidden shadow-lg">
             <div className="relative w-full h-48 md:h-64 lg:h-80">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-2FcCANtCKxGB360nxCYJALCL51pQZk.png"
+                src="images/banner.png"
                 alt="Profissional trabalhando"
                 fill
                 className="object-cover"

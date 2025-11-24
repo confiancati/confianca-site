@@ -16,11 +16,25 @@ export function Hero() {
     <section id="inicio" className="pt-24 md:pt-32 pb-16 md:pb-24 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Hero Image */}
+          <div className="order-1 lg:order-2">
+            <div className="relative w-full h-[200px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl">
+              <Image
+                src="/images/image.png"
+                alt="Profissional de contabilidade"
+                fill
+                className="object-cover object-bottom"
+                priority
+              />
+            </div>
+          </div>
+
           {/* Left Content */}
-          <div className="max-w-xl">
+          <div className="max-w-xl order-2 lg:order-1">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-secondary mb-6 text-balance leading-tight">
               Transparência, confiança, <span className="text-primary">caminhando junto com você</span>.
             </h1>
+
 
             {/* Benefits List */}
             <div className="space-y-4 mb-8">
@@ -80,18 +94,6 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Image */}
-          <div className="relative lg:block hidden">
-            <div className="relative w-full h-[600px] rounded-3xl overflow-hidden shadow-2xl">
-              <Image
-                src="/images/design-mode/image.png"
-                alt="Profissional de contabilidade"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          </div>
         </div>
       </div>
     </section>

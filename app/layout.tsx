@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
-import "./globals.css"
+import "../styles/globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   description:
     "Escritório de contabilidade especializado em comércio e serviços. Transparência, confiança e valor único sem surpresas.",
   generator: "v0.app",
+  icons: {
+    icon: "/images/flaticon.png",
+  },
 }
 
 export default function RootLayout({

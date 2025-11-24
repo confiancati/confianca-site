@@ -23,7 +23,7 @@ export function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link href="/" className="flex items-center">
             <Image
-              src="/images/design-mode/image.png"
+              src="/images/logo_colorido.png"
               alt="Confiança Contabilidade"
               width={200}
               height={50}
