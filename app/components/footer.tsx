@@ -54,9 +54,9 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Contato</h4>
             <ul className="space-y-2 text-sm text-secondary-foreground/80">
-              <li>(11) 99999-9999</li>
-              <li>(11) 3333-3333</li>
-              <li>contato@confiancacontabilidade.com.br</li>
+              <li>(48) 99610-4525</li>
+              <li>(48) 3364-8554</li>
+              <li>cristiane@contabconfianca.com.br</li>
             </ul>
           </div>
         </div>

@@ -21,11 +21,52 @@ export function Contact() {
     contactPreference: "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const whatsappMessage = `Olá! Meu nome é ${formData.name}. Cidade: ${formData.city}. Atividade: ${formData.activity}. Prefiro contato via ${formData.contactPreference}.`
-    const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(whatsappMessage)}`
-    window.open(whatsappUrl, "_blank")
+    setIsLoading(true)
+    setMessage(null)
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        setMessage({
+          type: "success",
+          text: "Mensagem enviada com sucesso! Entraremos em contato em breve.",
+        })
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          city: "",
+          activity: "",
+          contactPreference: "",
+        })
+      } else {
+        const errorData = await response.json()
+        setMessage({
+          type: "error",
+          text: errorData.error || "Erro ao enviar mensagem. Tente novamente.",
+        })
+      }
+    } catch (error) {
+      console.error("Erro:", error)
+      setMessage({
+        type: "error",
+        text: "Erro ao enviar mensagem. Tente novamente mais tarde.",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -63,13 +104,13 @@ export function Contact() {
                 <Card className="border-border bg-card">
                   <CardContent className="pt-6">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                         <Phone className="w-6 h-6 text-primary" />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-foreground mb-2">Telefone</h3>
-                        <p className="text-sm text-muted-foreground">(11) 99999-9999</p>
-                        <p className="text-sm text-muted-foreground">(11) 3333-3333</p>
+                        <p className="text-sm text-muted-foreground">(48) 99610-4525</p>
+                        <p className="text-sm text-muted-foreground">(48) 3364-8554</p>
                       </div>
                     </div>
                   </CardContent>
@@ -78,13 +119,13 @@ export function Contact() {
                 <Card className="border-border bg-card">
                   <CardContent className="pt-6">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                         <Mail className="w-6 h-6 text-primary" />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-foreground mb-2">E-mail</h3>
-                        <p className="text-sm text-muted-foreground break-words">
-                          contato@confiancacontabilidade.com.br
+                        <p className="text-sm text-muted-foreground wrap-break-word">
+                          cristiane@contabconfianca.com.br
                         </p>
                       </div>
                     </div>
@@ -94,17 +135,17 @@ export function Contact() {
                 <Card className="border-border bg-card">
                   <CardContent className="pt-6">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                         <MapPin className="w-6 h-6 text-primary" />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-foreground mb-2">Endereço</h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          Rua Exemplo, 123
+                          Rua Intendente Joao Nunes Vieira 801 3º Andar Sala 7
                           <br />
-                          Centro - São Paulo/SP
+                          Ingleses - Florianópolis/SC
                           <br />
-                          CEP: 01000-000
+                          CEP: 88058-100
                         </p>
                       </div>
                     </div>
@@ -117,6 +158,17 @@ export function Contact() {
             <div>
               <Card className="border-border shadow-lg">
                 <CardContent className="pt-8 pb-8">
+                  {message && (
+                    <div
+                      className={`mb-6 p-4 rounded-lg ${
+                        message.type === "success"
+                          ? "bg-green-50 text-green-800 border border-green-200"
+                          : "bg-red-50 text-red-800 border border-red-200"
+                      }`}
+                    >
+                      {message.text}
+                    </div>
+                  )}
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
@@ -237,9 +289,9 @@ export function Contact() {
                       type="submit"
                       size="lg"
                       className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-14 text-base font-semibold"
-                      disabled={!formData.contactPreference}
+                      disabled={!formData.contactPreference || isLoading}
                     >
-                      Enviar Solicitação
+                      {isLoading ? "Enviando..." : "Enviar Solicitação"}
                     </Button>
                   </form>
                 </CardContent>
